@@ -202,7 +202,7 @@ var saveMilestonesIntoBet = function(bet, arguments, responseCallback, res) {
 // Correctly populate nested fields and return the current user's bet
 betSchema.statics.getCurrentUserBets = function(user, responseCallback, res) {
 	// populate the user bets milestones
-	Bet.populate([user.bets], {"path":"milestones"}, function (err, output) {
+	Bet.populateBet([user.bets], {"path":"milestones"}, function (err, output) {
 		if (err) {
 			responseCallback(true, 500, 'There was an error!', res);
 		} else {
@@ -213,6 +213,7 @@ betSchema.statics.getCurrentUserBets = function(user, responseCallback, res) {
 	                responseCallback(true, 500, 'There was an error!', res);
 	            } else {
 	                user.monitoring = updatedBets;
+	                console.log("sss", user);
 	                MonitorRequest.populateMonitorRequest({ to: user._id }, 'to from bet', user, responseCallback, res);
 	            }
             });
